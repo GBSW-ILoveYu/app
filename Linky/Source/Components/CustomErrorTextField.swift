@@ -1,5 +1,5 @@
 //
-//  CustomTextField.swift
+//  CustomErrorTextField.swift
 //  Linky
 //
 //  Created by 박성민 on 3/20/25.
@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct CustomTextField: View {
+struct CustomErrorTextField: View {
     var title = "아이디를 입력하세요"
     @Binding var text: String
     var isSecure: Bool = false
-
+    
     var body: some View {
         Group{
             if isSecure {
@@ -20,7 +20,7 @@ struct CustomTextField: View {
                     text: $text,
                     prompt:Text(title)
                         .font(AppFonts.wantedSansRegular(size: 12))
-                        .foregroundStyle(.customGray)
+                        .foregroundStyle(.customRed)
                 )
             } else {
                 TextField(
@@ -28,7 +28,7 @@ struct CustomTextField: View {
                     text: $text,
                     prompt:Text(title)
                         .font(AppFonts.wantedSansRegular(size: 12))
-                        .foregroundStyle(.customGray)
+                        .foregroundStyle(.customRed)
                 )
             }
         }
@@ -36,13 +36,13 @@ struct CustomTextField: View {
         .frame(width: 300,height: 45)
         .font(AppFonts.wantedSansRegular(size: 12))
         .background(.white)
-        .foregroundStyle(.customGray)
+        .foregroundStyle(.customRed)
         .clipShape(RoundedRectangle(cornerRadius: 3))
-        .border(Color.customGray, width: 1)
+        .border(.customRed, width: 1)
     }
 }
 
 #Preview {
     @Previewable @State var text: String = ""
-    CustomTextField(title: "아이디를 입력하세요", text: $text)
+    CustomErrorTextField(title: "비밀번호를 입력하세요", text: $text)
 }

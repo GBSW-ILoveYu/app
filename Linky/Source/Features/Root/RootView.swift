@@ -14,8 +14,9 @@ struct RootView: View {
     var body: some View {
         NavigationStack(path: $pathModel.paths){
             VStack{
-                Text("여기다 스플래시 뷰 넣어야겠당")
-            }.onAppear{
+                ProgressView()
+            }
+            .onAppear{
                 pathModel.paths.append(.login)
             }
             .navigationDestination(for: PathType.self) { route in
@@ -25,8 +26,10 @@ struct RootView: View {
                         .navigationBarBackButtonHidden()
                 case .signUp:
                     SignUpView()
+                        .navigationBarBackButtonHidden()
                 case .main:
                     MainView()
+                        .navigationBarBackButtonHidden()
                 }
             }
         }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject var viewModel = LoginViewModel()
+    @EnvironmentObject var pathModel : PathModel
     var body: some View {
         ZStack{
             Color.customSkyBlue
@@ -30,9 +31,10 @@ struct LoginView: View {
                     id: $viewModel.id,
                     password: $viewModel.password,
                     loginAction: { viewModel.login() },
-                    singUpAction: { viewModel.signUp() }
+                    singUpAction: {
+                        pathModel.paths.append(.signUp)
+                    }
                 )
-                
             }
         }
     }
@@ -85,4 +87,5 @@ fileprivate struct LoginFormView: View {
 
 #Preview {
     LoginView()
+        .environmentObject(PathModel())
 }
