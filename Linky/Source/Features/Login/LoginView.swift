@@ -30,7 +30,9 @@ struct LoginView: View {
                 LoginFormView(
                     id: $viewModel.id,
                     password: $viewModel.password,
-                    loginAction: { viewModel.login() },
+                    loginAction: {
+                        pathModel.paths.append(.main)
+                    },
                     singUpAction: {
                         pathModel.paths.append(.signUp)
                     }
