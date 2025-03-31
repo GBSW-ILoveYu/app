@@ -12,12 +12,14 @@ struct MainView: View {
         VStack{
             MainViewTitle()
             
-            ProgressBar()
-            
+            ProgressBar(currentValue: 18, totalValue: 32)
+            Spacer()
+                .frame(height: 30)
             LinkRepository()
             
             Spacer()
                 .frame(height: 20)
+            
             VisitLinkRepository()
             Spacer()
         }
@@ -64,10 +66,38 @@ fileprivate struct MainViewTitle: View {
 }
 
 fileprivate struct ProgressBar: View {
+    var currentValue: Double
+    var totalValue: Double
+    
+    var progress : Double {
+        totalValue == 0 ? 0 : currentValue / totalValue
+    }
+    
     var body: some View{
         VStack{
-            Text("progressBar")
-            //MARK: - 이건 나중에 구현해야지 ㅎㅎ
+            HStack{
+                Spacer()
+                Text("\(Int(currentValue)) / \(Int(totalValue))")
+                    .font(AppFonts.wantedSansBold(size: 12))
+                Spacer()
+                    .frame(width: 40)
+            }
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .frame(width: geometry.size.width, height: 15)
+                        .foregroundColor(.customGray1)
+                        .cornerRadius(10)
+                    
+                    Rectangle()
+                        .frame(width: geometry.size.width * CGFloat(self.progress), height: 15)
+                        .foregroundColor(.customBlue)
+                        .cornerRadius(10)
+                        .animation(.linear, value: progress)
+                }
+            }
+            .frame(height: 15)
+            .padding(.horizontal,30)
         }
     }
 }
