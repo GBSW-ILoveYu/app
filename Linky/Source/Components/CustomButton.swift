@@ -18,9 +18,9 @@ struct CustomButton: View {
                 .frame(width: 300, height: 45)
                 .font(AppFonts.wantedSansBold(size: 16))
                 .foregroundStyle(foregroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: 3))
                 .border(.customBlue,width: 1)
                 .background(backgroundColor)
+                .clipShape(RoundedRectangle(cornerRadius: 3))
         }
     }
 }

@@ -128,7 +128,7 @@ fileprivate struct LinkRepository: View {
             }
             .padding()
         }
-        .frame(width: .infinity,height: 209)
+        .frame(width: 402,height: 209)
         .padding()
         .background(.customGray1)
     }
@@ -143,6 +143,9 @@ fileprivate struct VisitLinkRepository: View {
                 Text("최근 열어 본 링크")
                     .font(AppFonts.wantedSansBold(size: 18))
                 Spacer()
+            }
+            ScrollView(.horizontal,showsIndicators: false){
+                Link("label", destination: URL(string: "https://www.naver.com/")!)
             }
             //MARK: - 최근 열어본 링크 페이지 구현
         }
