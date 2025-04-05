@@ -30,6 +30,9 @@ struct RootView: View {
                 case .main:
                     MenuView()
                         .navigationBarBackButtonHidden()
+                case .upload:
+                    UploadOkVIew()
+                        .navigationBarBackButtonHidden()
                 }
             }
         }

@@ -9,4 +9,5 @@ enum PathType: Hashable{
     case login
     case signUp
     case main
+    case upload
 }
