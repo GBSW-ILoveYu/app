@@ -10,4 +10,5 @@ enum PathType: Hashable{
     case signUp
     case main
     case upload
+    case categoryDetail(Category)
 }

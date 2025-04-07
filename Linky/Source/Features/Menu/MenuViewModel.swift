@@ -8,6 +8,7 @@
 import Foundation
 
 class MenuViewModel: ObservableObject{
+    static let shared = MenuViewModel() 
     @Published var searchText: String = ""
     @Published var selectedTab: Int = 0
     

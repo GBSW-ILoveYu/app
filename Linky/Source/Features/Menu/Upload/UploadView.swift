@@ -10,6 +10,7 @@ import SwiftUI
 struct UploadView: View {
     @EnvironmentObject var pathModel : PathModel
     @State var text: String = ""
+    
     var body: some View {
         VStack{
             Image("uploadImage")
@@ -30,7 +31,6 @@ struct UploadView: View {
             UploadCustomButton(
                 title: "링크 저장하기",
                 action: {
-                    print("클릭 !")
                     pathModel.paths.append(.upload)
                 }
             )

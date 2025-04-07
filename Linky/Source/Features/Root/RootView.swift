@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RootView: View {
     @StateObject private var pathModel = PathModel()
-    //TODO: - 로그인 체크 모델 넣기
     
     var body: some View {
         NavigationStack(path: $pathModel.paths){
@@ -20,7 +19,7 @@ struct RootView: View {
                 pathModel.paths.append(.login)
             }
             .navigationDestination(for: PathType.self) { route in
-                switch route{
+                switch route {
                 case .login:
                     LoginView()
                         .navigationBarBackButtonHidden()
@@ -32,6 +31,9 @@ struct RootView: View {
                         .navigationBarBackButtonHidden()
                 case .upload:
                     UploadOkVIew()
+                        .navigationBarBackButtonHidden()
+                case .categoryDetail(let category):
+                    CategoryDetailView(category: category)
                         .navigationBarBackButtonHidden()
                 }
             }

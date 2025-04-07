@@ -43,7 +43,8 @@ struct MenuView: View {
                     }
                     .tag(2)
             }
-            .tint(.customBlue)  
+            .tint(.customBlue)
+            SharedLinkModalView()
         }
     }
 }
