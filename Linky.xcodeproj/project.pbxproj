@@ -37,6 +37,7 @@
 /* Begin PBXFileReference section */
 		062DFC1F2D8A6A1200DF43BF /* Linky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06DCB8B22DA36D1C000B649D /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		06F2F4B02DACDB4300980D16 /* Linky_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Linky_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -73,6 +74,11 @@
 			path = ShareExtension;
 			sourceTree = "<group>";
 		};
+		06F2F4B12DACDB4300980D16 /* Linky_macOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Linky_macOS;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +96,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		06F2F4AD2DACDB4300980D16 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -98,6 +111,7 @@
 			children = (
 				062DFC212D8A6A1200DF43BF /* Linky */,
 				06DCB8B32DA36D1C000B649D /* ShareExtension */,
+				06F2F4B12DACDB4300980D16 /* Linky_macOS */,
 				062DFC202D8A6A1200DF43BF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -107,6 +121,7 @@
 			children = (
 				062DFC1F2D8A6A1200DF43BF /* Linky.app */,
 				06DCB8B22DA36D1C000B649D /* ShareExtension.appex */,
+				06F2F4B02DACDB4300980D16 /* Linky_macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,6 +175,28 @@
 			productReference = 06DCB8B22DA36D1C000B649D /* ShareExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		06F2F4AF2DACDB4300980D16 /* Linky_macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06F2F4BE2DACDB4500980D16 /* Build configuration list for PBXNativeTarget "Linky_macOS" */;
+			buildPhases = (
+				06F2F4AC2DACDB4300980D16 /* Sources */,
+				06F2F4AD2DACDB4300980D16 /* Frameworks */,
+				06F2F4AE2DACDB4300980D16 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				06F2F4B12DACDB4300980D16 /* Linky_macOS */,
+			);
+			name = Linky_macOS;
+			packageProductDependencies = (
+			);
+			productName = Linky_macOS;
+			productReference = 06F2F4B02DACDB4300980D16 /* Linky_macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -174,6 +211,9 @@
 						CreatedOnToolsVersion = 16.2;
 					};
 					06DCB8B12DA36D1C000B649D = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					06F2F4AF2DACDB4300980D16 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -193,6 +233,7 @@
 			projectRoot = "";
 			targets = (
 				062DFC1E2D8A6A1200DF43BF /* Linky */,
+				06F2F4AF2DACDB4300980D16 /* Linky_macOS */,
 				06DCB8B12DA36D1C000B649D /* ShareExtension */,
 			);
 		};
@@ -213,6 +254,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		06F2F4AE2DACDB4300980D16 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -224,6 +272,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		06DCB8AE2DA36D1C000B649D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06F2F4AC2DACDB4300980D16 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -472,6 +527,68 @@
 			};
 			name = Release;
 		};
+		06F2F4BC2DACDB4500980D16 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Linky_macOS/Linky_macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Linky_macOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 72N6BJ6U9G;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Linky-macOS-Info.plist";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hoit1011.Linky-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		06F2F4BD2DACDB4500980D16 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Linky_macOS/Linky_macOS.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Linky_macOS/Preview Content\"";
+				DEVELOPMENT_TEAM = 72N6BJ6U9G;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Linky-macOS-Info.plist";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "hoit1011.Linky-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -498,6 +615,15 @@
 			buildConfigurations = (
 				06DCB8BE2DA36D1C000B649D /* Debug */,
 				06DCB8BF2DA36D1C000B649D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06F2F4BE2DACDB4500980D16 /* Build configuration list for PBXNativeTarget "Linky_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06F2F4BC2DACDB4500980D16 /* Debug */,
+				06F2F4BD2DACDB4500980D16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
