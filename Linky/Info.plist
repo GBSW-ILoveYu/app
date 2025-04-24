@@ -15,6 +15,9 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
+		<string>WantedSans-SemiBold.ttf</string>
+		<string>WantedSans-Regular.ttf</string>
+		<string>WantedSans-Medium.ttf</string>
 		<string>WantedSans-Bold.ttf</string>
 	</array>
 </dict>

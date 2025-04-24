@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RootView: View {
     @StateObject private var pathModel = PathModel()
-    
     var body: some View {
         NavigationStack(path: $pathModel.paths){
             VStack{
