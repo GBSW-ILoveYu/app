@@ -11,6 +11,8 @@ struct LoginView: View {
     @StateObject var viewModel : LoginViewModel
     @EnvironmentObject var container: DIContainer
     @EnvironmentObject var pathModel: RootViewModel
+    @State private var showAlert: Bool = false
+    
     var body: some View {
         ZStack{
             Color.customSkyBlue
@@ -29,10 +31,16 @@ struct LoginView: View {
                     .frame(height: 34)
                 
                 LoginFormView(
-                    id: $viewModel.id,
+                    email: $viewModel.email,
                     password: $viewModel.password,
                     loginAction: {
-                        pathModel.send(action: .push(.main))
+                        viewModel.login { success in
+                            if success {
+                                pathModel.send(action: .push(.main))
+                            } else {
+                                showAlert.toggle()
+                            }
+                        }
                     },
                     singUpAction: {
                         pathModel.send(action: .push(.signUp))
@@ -40,11 +48,18 @@ struct LoginView: View {
                 )
             }
         }
+        .alert(isPresented: $showAlert){
+            Alert(
+                title: Text("로그인 실패"),
+                message: Text(viewModel.errorMessage ?? "실패"),
+                dismissButton: .default(Text("확인"))
+            )
+        }
     }
 }
 
 fileprivate struct LoginFormView: View {
-    @Binding var id: String
+    @Binding var email: String
     @Binding var password: String
     
     var loginAction: () -> Void
@@ -53,8 +68,8 @@ fileprivate struct LoginFormView: View {
     var body: some View{
         VStack{
             CustomTextField(
-                title: "아이디를 입력하세요",
-                text: $id
+                title: "이메일을 입력하세요",
+                text: $email
             )
             
             Spacer()
@@ -62,7 +77,8 @@ fileprivate struct LoginFormView: View {
             
             CustomTextField(
                 title: "비밀번호를 입력하세요",
-                text: $password
+                text: $password,
+                isSecure: true
             )
             
             Spacer()

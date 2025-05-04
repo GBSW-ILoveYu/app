@@ -60,7 +60,7 @@ struct SignUpView: View {
                     title: Text("회원가입 성공"),
                     message: Text("회원가입이 완료되었습니다"),
                     dismissButton: .default(Text("확인")) {
-                        pathModel.send(action: .push(.main))
+                        pathModel.send(action: .pop)
                     }
                 )
             }
