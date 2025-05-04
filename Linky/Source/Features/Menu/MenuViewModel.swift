@@ -6,14 +6,27 @@
 //
 
 import Foundation
+import SwiftUI
 
+enum TabType : Hashable , CaseIterable {
+    case main
+    case upload
+    case search
+    var icon: String {
+        switch self{
+        case .main: return "home"
+        case .upload: return "plus"
+        case .search: return "imageLogo"
+        }
+    }
+}
+                            
 class MenuViewModel: ObservableObject{
-    static let shared = MenuViewModel() 
     @Published var searchText: String = ""
-    @Published var selectedTab: Int = 0
+    @Published var selectedTab: TabType = .main
     
     func changeSearchView(){
-        print("asdasd")
-        selectedTab = 2
+        selectedTab = .search
     }
+    
 }

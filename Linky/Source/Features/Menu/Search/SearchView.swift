@@ -21,7 +21,7 @@ struct SearchView: View {
 }
 
 fileprivate struct CategoryListView: View {
-    @EnvironmentObject var pathModel: PathModel
+    @EnvironmentObject var pathModel: RootViewModel
     let categories: [Category]
     
     var body: some View{
@@ -35,7 +35,7 @@ fileprivate struct CategoryListView: View {
             }
             ForEach(categories) { category in
                 Button(action: {
-                        pathModel.paths.append(.categoryDetail(category))
+                    pathModel.send(action: .push(.categoryDetail(category)))
                 }) {
                     SearchContainer(
                         number:"\(category.count)",
@@ -50,5 +50,5 @@ fileprivate struct CategoryListView: View {
 
 #Preview {
     SearchView()
-        .environmentObject(PathModel())
+        .environmentObject(RootViewModel())
 }

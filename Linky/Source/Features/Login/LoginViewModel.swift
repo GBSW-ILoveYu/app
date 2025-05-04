@@ -11,6 +11,12 @@ class LoginViewModel: ObservableObject{
     @Published var id: String = ""
     @Published var password: String = ""
     
+    private var container: DIContainer
+    
+    init(container: DIContainer){
+        self.container = container
+    }
+    
     func login(){
         print("로그인!")
     }

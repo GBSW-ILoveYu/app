@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @EnvironmentObject var pathModel : PathModel
-    @StateObject var viewModel = SignUpViewModel()
-    @State private var showAlert: Bool = false
+    @EnvironmentObject var pathModel : RootViewModel
+    @StateObject var viewModel : SignUpViewModel
+    @State private var alertType: SignUpAlertType? = nil
+    
     var body: some View {
         ZStack{
             Color.customSkyBlue
@@ -35,21 +36,34 @@ struct SignUpView: View {
                     email: $viewModel.email,
                     errorBox: $viewModel.errorBox,
                     onSignUp: {
-                        if viewModel.signUp() {
-                            pathModel.paths.append(.main)
-                        } else {
-                            showAlert.toggle()
+                        viewModel.signUp { success in
+                            if success {
+                                alertType = .success
+                            } else {
+                                alertType = .error(viewModel.errorMessage ?? "에러")
+                            }
                         }
                     }
                 )
             }
         }
-        .alert(isPresented: $showAlert){
-            Alert(
-                title: Text("회원가입 에러"),
-                message: Text(viewModel.errorMessage ?? "에러"),
-                dismissButton: .default(Text("확인"))
-            )
+        .alert(item: $alertType){ alert in
+            switch alert {
+            case .error(let message):
+                return Alert(
+                    title: Text("회원가입 에러"),
+                    message: Text(message),
+                    dismissButton: .default(Text("확인"))
+                )
+            case .success:
+                return Alert(
+                    title: Text("회원가입 성공"),
+                    message: Text("회원가입이 완료되었습니다"),
+                    dismissButton: .default(Text("확인")) {
+                        pathModel.send(action: .push(.main))
+                    }
+                )
+            }
         }
     }
 }
@@ -60,58 +74,97 @@ fileprivate struct SignUpFormView: View {
     @Binding var password: String
     @Binding var passwordCheck: String
     @Binding var email: String
-    @Binding var errorBox: Int
+    @Binding var errorBox: Set<SignUpField>
     var onSignUp: () -> Void
     
     var body: some View{
         VStack(spacing:16) {
-            CustomTextField(
-                title: "이름을 입력하세요.",
-                text: $name
-            )
-            
-            CustomTextField(
-                title: "아이디를 입력하세요.",
-                text: $id
-            )
-            
-            CustomTextField(
-                title: "비밀번호를 입력하세요.",
-                text: $password,
-                isSecure: true
-            )
-            
-            if errorBox == 4{
-                CustomErrorTextField(
-                    title: "비밀번호 확인을 입력하세요.",
-                    text: $passwordCheck,
-                    isSecure: true
-                )
-            } else {
-                CustomTextField(
-                    title: "비밀번호 확인을 입력하세요.",
-                    text: $passwordCheck,
-                    isSecure: true
-                )
+            Group{
+                if errorBox.contains(.name) {
+                    CustomErrorTextField(
+                        title: "이름을 입력하세요.",
+                        text: $name
+                    )
+                } else {
+                    CustomTextField(
+                        title: "이름을 입력하세요.",
+                        text: $name
+                    )
+                }
             }
             
-            CustomTextField(
-                title: "이메일을 입력하세요.",
-                text: $email
-            )
+            Group {
+                if errorBox.contains(.id) {
+                    CustomErrorTextField(
+                        title: "아이디를 입력하세요.",
+                        text: $id
+                    )
+                } else {
+                    CustomTextField(
+                        title: "아이디를 입력하세요.",
+                        text: $id
+                    )
+                }
+            }
             
-            CustomButton(
-                title: "회원가입",
-                backgroundColor: .customBlue,
-                foregroundColor: .white,
-                action: onSignUp
-            )
-            .padding(.top, 10)
+            Group {
+                if errorBox.contains(.password) {
+                    CustomErrorTextField(
+                        title: "비밀번호를 입력하세요.",
+                        text: $password,
+                        isSecure: true
+                    )
+                } else {
+                    CustomTextField(
+                        title: "비밀번호를 입력하세요.",
+                        text: $password,
+                        isSecure: true
+                    )
+                }
+            }
+            Group {
+                if errorBox.contains(.passwordCheck) {
+                    CustomErrorTextField(
+                        title: "비밀번호 확인을 입력하세요.",
+                        text: $passwordCheck,
+                        isSecure: true
+                    )
+                } else {
+                    CustomTextField(
+                        title: "비밀번호 확인을 입력하세요.",
+                        text: $passwordCheck,
+                        isSecure: true
+                    )
+                }
+            }
+            
+            Group {
+                if errorBox.contains(.email) {
+                    CustomErrorTextField(
+                        title: "이메일을 입력하세요.",
+                        text: $email
+                    )
+                } else {
+                    CustomTextField(
+                        title: "이메일을 입력하세요.",
+                        text: $email
+                    )
+                }
+            }
         }
+        
+        CustomButton(
+            title: "회원가입",
+            backgroundColor: .customBlue,
+            foregroundColor: .white,
+            action: onSignUp
+        )
+        .padding(.top, 10)
     }
 }
 
+
 #Preview {
-    SignUpView()
-        .environmentObject(PathModel())
+    SignUpView(viewModel: .init(container: .init(services: StubServices())))
+        .environmentObject(RootViewModel())
 }

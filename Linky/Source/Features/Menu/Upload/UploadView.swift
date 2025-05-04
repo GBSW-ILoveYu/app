@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UploadView: View {
-    @EnvironmentObject var pathModel : PathModel
+    @EnvironmentObject var pathModel : RootViewModel
     @State var text: String = ""
     
     var body: some View {
@@ -31,7 +31,7 @@ struct UploadView: View {
             UploadCustomButton(
                 title: "링크 저장하기",
                 action: {
-                    pathModel.paths.append(.upload)
+                    pathModel.send(action: .push(.upload))
                 }
             )
         }
@@ -54,5 +54,5 @@ fileprivate struct UploadFormView: View {
 }
 #Preview {
     UploadView()
-        .environmentObject(PathModel())
+        .environmentObject(RootViewModel())
 }

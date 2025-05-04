@@ -8,39 +8,48 @@
 import SwiftUI
 
 struct RootView: View {
-    @StateObject private var pathModel = PathModel()
+    @EnvironmentObject var container: DIContainer
+    @StateObject var viewModel: RootViewModel
     var body: some View {
-        NavigationStack(path: $pathModel.paths){
+        NavigationStack(path: $viewModel.paths){
             VStack{
                 ProgressView()
             }
+            
             .onAppear{
-                pathModel.paths.append(.login)
+                //TODO: LoginCheck 로직
+                viewModel.send(action: .push(.login))
             }
+            
             .navigationDestination(for: PathType.self) { route in
                 switch route {
                 case .login:
-                    LoginView()
+                    LoginView(viewModel: .init(container: container))
                         .navigationBarBackButtonHidden()
+                    
                 case .signUp:
-                    SignUpView()
+                    SignUpView(viewModel: .init(container: container))
                         .navigationBarBackButtonHidden()
+                    
                 case .main:
-                    MenuView()
+                    MenuView(viewModel: .init())
                         .navigationBarBackButtonHidden()
+                    
                 case .upload:
                     UploadOkVIew()
                         .navigationBarBackButtonHidden()
+                    
                 case .categoryDetail(let category):
                     CategoryDetailView(category: category)
                         .navigationBarBackButtonHidden()
                 }
             }
         }
-        .environmentObject(pathModel)
+        .environmentObject(viewModel)
     }
 }
 
 #Preview {
-    RootView()
+    RootView(viewModel: .init())
+        .environmentObject(DIContainer(services: StubServices()))
 }

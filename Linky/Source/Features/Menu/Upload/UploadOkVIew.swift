@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UploadOkVIew: View {
     var category : String = "음악"
-    @EnvironmentObject var pathModel : PathModel
+    @EnvironmentObject var pathModel : RootViewModel
     var body: some View {
         ZStack{
             Color.customSkyBlue
@@ -39,7 +39,7 @@ struct UploadOkVIew: View {
                 UploadCustomButton(
                     title: "홈으로",
                     action: {
-                        pathModel.paths.append(.main)
+                        pathModel.send(action: .push(.main))
                     }
                 )
                 
@@ -50,5 +50,5 @@ struct UploadOkVIew: View {
 
 #Preview {
     UploadOkVIew()
-        .environmentObject(PathModel())
+        .environmentObject(RootViewModel())
 }

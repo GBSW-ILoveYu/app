@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CategoryDetailView: View {
     let category: Category
-    @EnvironmentObject var pathModel: PathModel 
+    @EnvironmentObject var pathModel: RootViewModel
     
     var body: some View {
         VStack {
@@ -10,11 +10,10 @@ struct CategoryDetailView: View {
             
             HStack {
                 Button {
-                    pathModel.paths.removeLast()
+                    pathModel.send(action: .pop)
                 } label: {
                     Image(systemName: "chevron.left")
                         .foregroundStyle(.customWhite)
-                        .offset(x: 20)
                 }
 
                 Spacer()
@@ -25,6 +24,7 @@ struct CategoryDetailView: View {
 
                 Spacer()
             }
+            .padding(.horizontal,20)
             .frame(width: 402, height: 50)
             .background(.customBlue)
             
@@ -47,5 +47,5 @@ struct CategoryDetailView: View {
 #Preview {
     @Previewable @State var category = Category(title: "전체", count: 6)
     CategoryDetailView(category: category)
-        .environmentObject(PathModel())
+        .environmentObject(RootViewModel())
 }

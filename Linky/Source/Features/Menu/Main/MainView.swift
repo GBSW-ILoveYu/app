@@ -117,15 +117,15 @@ fileprivate struct LinkRepository: View {
             }
             Spacer()
             ScrollView(.horizontal,showsIndicators: false){
-                HStack(spacing:20){
+                LazyHStack(spacing:20){
                     CustomLinkBox()
                     CustomLinkBox()
                     CustomLinkBox()
                     CustomLinkBox()
                     CustomLinkBox()
-                    
                 }
             }
+            
             .padding()
         }
         .frame(width: 402,height: 209)

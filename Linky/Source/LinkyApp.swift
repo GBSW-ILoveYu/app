@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct LinkyApp: App {
+    @StateObject var container: DIContainer = .init(services: Services())
+    
     var body: some Scene {
         WindowGroup {
-            RootView()
+            RootView(viewModel: .init())
+                .environmentObject(container)
         }
     }
 }
