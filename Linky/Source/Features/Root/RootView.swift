@@ -24,7 +24,7 @@ struct RootView: View {
             .navigationDestination(for: PathType.self) { route in
                 switch route {
                 case .login:
-                    LoginView(viewModel: .init(container: container))
+                    LoginView(viewModel: .init(container: container, pathModel: viewModel))
                         .navigationBarBackButtonHidden()
                     
                 case .signUp:

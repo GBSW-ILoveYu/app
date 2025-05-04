@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		06DB8D0E2DC721E000771BC2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 06DB8D0D2DC721E000771BC2 /* Alamofire */; };
+		06DB8D262DC7F87D00771BC2 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 06DB8D252DC7F87D00771BC2 /* SwiftKeychainWrapper */; };
 		06DCB8BC2DA36D1C000B649D /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 06DCB8B22DA36D1C000B649D /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -87,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06DB8D262DC7F87D00771BC2 /* SwiftKeychainWrapper in Frameworks */,
 				06DB8D0E2DC721E000771BC2 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,6 +153,7 @@
 			name = Linky;
 			packageProductDependencies = (
 				06DB8D0D2DC721E000771BC2 /* Alamofire */,
+				06DB8D252DC7F87D00771BC2 /* SwiftKeychainWrapper */,
 			);
 			productName = Linky;
 			productReference = 062DFC1F2D8A6A1200DF43BF /* Linky.app */;
@@ -232,6 +235,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				06DB8D0C2DC721E000771BC2 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				06DB8D242DC7F87D00771BC2 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 062DFC202D8A6A1200DF43BF /* Products */;
@@ -645,6 +649,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		06DB8D242DC7F87D00771BC2 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -652,6 +664,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 06DB8D0C2DC721E000771BC2 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		06DB8D252DC7F87D00771BC2 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06DB8D242DC7F87D00771BC2 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

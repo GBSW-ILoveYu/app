@@ -10,7 +10,6 @@ import SwiftUI
 struct LoginView: View {
     @StateObject var viewModel : LoginViewModel
     @EnvironmentObject var container: DIContainer
-    @EnvironmentObject var pathModel: RootViewModel
     @State private var showAlert: Bool = false
     
     var body: some View {
@@ -34,16 +33,10 @@ struct LoginView: View {
                     email: $viewModel.email,
                     password: $viewModel.password,
                     loginAction: {
-                        viewModel.login { success in
-                            if success {
-                                pathModel.send(action: .push(.main))
-                            } else {
-                                showAlert.toggle()
-                            }
-                        }
+                        viewModel.send(action: .login)
                     },
                     singUpAction: {
-                        pathModel.send(action: .push(.signUp))
+                        viewModel.send(action: .goSignUp)
                     }
                 )
             }
@@ -105,6 +98,6 @@ fileprivate struct LoginFormView: View {
 }
 
 #Preview {
-    LoginView(viewModel: .init(container: .init(services: StubServices())))
+    LoginView(viewModel: .init(container: .init(services: StubServices()), pathModel: RootViewModel()))
         .environmentObject(RootViewModel())
 }

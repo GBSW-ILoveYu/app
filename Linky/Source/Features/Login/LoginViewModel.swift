@@ -7,18 +7,40 @@
 
 import Foundation
 import Combine
+import SwiftKeychainWrapper
 
 class LoginViewModel: ObservableObject{
+    enum Action{
+        case login
+        case goSignUp
+    }
+    
     @Published var email: String = ""
     @Published var password: String = ""
     
     @Published var errorMessage: String? = nil
     
     private var container: DIContainer
+    private var pathModel : RootViewModel
     private var subscriber = Set<AnyCancellable>()
     
-    init(container: DIContainer){
+    init(container: DIContainer, pathModel: RootViewModel){
         self.container = container
+        self.pathModel = pathModel
+    }
+    
+    func send(action: Action){
+        switch action {
+        case .login:
+            login { success in
+                if success {
+                    self.pathModel.send(action: .push(.main))
+                }
+            }
+        case .goSignUp:
+            print("회원가입으로")
+            self.pathModel.send(action: .push(.signUp))
+        }
     }
     
     func login(completion : @escaping (Bool) -> Void){
@@ -40,14 +62,11 @@ class LoginViewModel: ObservableObject{
             } receiveValue: { response in
                 DispatchQueue.main.async {
                     print("로그인 성공")
-                    //TODO: switKeyChain저장로직 추가
+                    KeychainWrapper.standard.set(response.accessToken, forKey: "accessToken")
+                    KeychainWrapper.standard.set(response.refreshToken, forKey: "refreshToken")
                     completion(true)
                 }
             }
             .store(in: &subscriber)
-    }
-    
-    func signUp(){
-        print("회원가입!")
     }
 }
