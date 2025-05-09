@@ -10,7 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @StateObject var viewModel : LoginViewModel
     @EnvironmentObject var container: DIContainer
-    @State private var showAlert: Bool = false
+    @State private var alertType: LoginAlertType? = nil
     
     var body: some View {
         ZStack{
@@ -33,7 +33,13 @@ struct LoginView: View {
                     email: $viewModel.email,
                     password: $viewModel.password,
                     loginAction: {
-                        viewModel.send(action: .login)
+                        viewModel.login { success in
+                            if success {
+                                alertType = .success
+                            } else {
+                                alertType = .error(viewModel.errorMessage ?? "에러")
+                            }
+                        }
                     },
                     singUpAction: {
                         viewModel.send(action: .goSignUp)
@@ -41,12 +47,23 @@ struct LoginView: View {
                 )
             }
         }
-        .alert(isPresented: $showAlert){
-            Alert(
-                title: Text("로그인 실패"),
-                message: Text(viewModel.errorMessage ?? "실패"),
-                dismissButton: .default(Text("확인"))
-            )
+        .alert(item: $alertType){ alert in
+            switch alert{
+            case .success:
+                return Alert(
+                    title: Text("로그인 성공"),
+                    message: Text("로그인이 완료되었습니다."),
+                    dismissButton: .default(Text("확인")){
+                        viewModel.send(action: .login)
+                    }
+                )
+            case .error(let message):
+                return Alert(
+                    title: Text("로그인 실패"),
+                    message: Text(message),
+                    dismissButton: .default(Text("확인"))
+                )
+            }
         }
     }
 }

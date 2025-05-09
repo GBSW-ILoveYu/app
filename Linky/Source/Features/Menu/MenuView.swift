@@ -33,8 +33,6 @@ struct MenuView: View {
             }
             .animation(.easeInOut, value: viewModel.selectedTab)
             .tint(.customBlue)
-            
-//          SharedLinkModalView()
         }
     }
     
@@ -49,6 +47,7 @@ struct MenuView: View {
             SearchView()
         }
     }
+    
 }
 
 #Preview {

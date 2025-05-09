@@ -17,7 +17,6 @@ class LoginViewModel: ObservableObject{
     
     @Published var email: String = ""
     @Published var password: String = ""
-    
     @Published var errorMessage: String? = nil
     
     private var container: DIContainer
@@ -44,6 +43,7 @@ class LoginViewModel: ObservableObject{
     }
     
     func login(completion : @escaping (Bool) -> Void){
+        print("로그인")
         let request = LoginRequest(
             email: email,
             password: password
@@ -55,6 +55,7 @@ class LoginViewModel: ObservableObject{
                     break
                 case .failure(let error):
                     DispatchQueue.main.async{
+                        print(error)
                         self?.errorMessage = error.message.values.joined(separator: "\n")
                         completion(false)
                     }

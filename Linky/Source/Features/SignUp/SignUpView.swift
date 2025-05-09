@@ -18,6 +18,20 @@ struct SignUpView: View {
                 .ignoresSafeArea()
             
             VStack{
+                HStack{
+                    Spacer()
+                        .frame(width: 20)
+                    Image(systemName: "chevron.left")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width:10)
+                        .foregroundStyle(.customGray)
+                        .onTapGesture {
+                            pathModel.send(action: .pop)
+                        }
+                    Spacer()
+                }
+                Spacer()
                 Image("textLogo")
                     .resizable()
                     .scaledToFit()
@@ -45,6 +59,7 @@ struct SignUpView: View {
                         }
                     }
                 )
+                Spacer()
             }
         }
         .alert(item: $alertType){ alert in
@@ -65,6 +80,7 @@ struct SignUpView: View {
                 )
             }
         }
+        
     }
 }
 
