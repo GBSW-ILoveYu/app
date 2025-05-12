@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 enum TabType : Hashable , CaseIterable {
     case main
@@ -22,11 +23,48 @@ enum TabType : Hashable , CaseIterable {
 }
                             
 class MenuViewModel: ObservableObject{
+    enum Action {
+        case load
+    }
+    
     @Published var searchText: String = ""
     @Published var selectedTab: TabType = .main
+    @Published var phase: Phase = .notRequested
+    @Published var user: User? = nil
+    
+    private var container: DIContainer
+    private var cancellables = Set<AnyCancellable>()
+    
+    init(container: DIContainer){
+        self.container = container
+    }
+    
+    func send(action: Action){
+        switch action{
+        case .load:
+            loadUser()
+        }
+    }
     
     func changeSearchView(){
         selectedTab = .search
     }
     
+    func loadUser() {
+        phase = .loading
+        container.services.userService.getUser()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                switch completion{
+                case .finished:
+                    break
+                case .failure(let error):
+                    self?.phase = .fail
+                }
+            } receiveValue: { [weak self] user in
+                self?.user = user
+                self?.phase = .success
+            }
+            .store(in: &cancellables)
+    }
 }

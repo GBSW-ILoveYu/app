@@ -9,6 +9,23 @@ import SwiftUI
 struct MenuView: View {
     @StateObject var viewModel : MenuViewModel
     var body: some View {
+        switch viewModel.phase{
+        case .notRequested:
+            PlaceholderView()
+                .onAppear{
+                    viewModel.send(action: .load)
+                }
+        case .loading:
+            LoadingView()
+        case .success:
+            content
+                .environmentObject(viewModel)
+        case .fail:
+            ErrorView()
+        }
+    }
+    
+    var content: some View {
         VStack{
             CustomHeader()
             
@@ -51,6 +68,6 @@ struct MenuView: View {
 }
 
 #Preview {
-    MenuView(viewModel: .init())
+    MenuView(viewModel: .init(container: DIContainer(services: StubServices())))
         .environmentObject(RootViewModel())
 }

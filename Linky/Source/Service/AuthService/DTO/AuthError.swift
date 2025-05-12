@@ -1,14 +1,15 @@
 //
-//  AuthError.swift
+//  Autherror.swift
 //  Linky
 //
-//  Created by 박성민 on 5/4/25.
+//  Created by 박성민 on 5/10/25.
 //
 
 import Foundation
 
-struct AuthError : Decodable, Error {
-    let message : OneOrMany<String>
-    let error: String
-    let statusCode: Int
+enum AuthError: Error {
+    case apiError(AuthErrorResponse)
+    case decodingError(String)
+    case networkError(String)
+    case unknown(String)             
 }

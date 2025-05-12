@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct MainView: View {
+    @EnvironmentObject var menuViewModel: MenuViewModel
+    
     var body: some View {
         VStack{
-            MainViewTitle()
+            MainViewTitle(name: menuViewModel.user?.nickName ?? "없음")
             
             ProgressBar(currentValue: 18, totalValue: 32)
+            
             Spacer()
                 .frame(height: 30)
+            
             LinkRepository()
             
             Spacer()
@@ -27,7 +31,7 @@ struct MainView: View {
 }
 
 fileprivate struct MainViewTitle: View {
-    var name : String = "박성민"
+    var name : String
     var count : Int = 18
     var body: some View{
         HStack{

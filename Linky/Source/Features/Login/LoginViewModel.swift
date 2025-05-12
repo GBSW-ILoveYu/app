@@ -54,9 +54,20 @@ class LoginViewModel: ObservableObject{
                 case .finished:
                     break
                 case .failure(let error):
-                    DispatchQueue.main.async{
-                        print(error)
-                        self?.errorMessage = error.message.values.joined(separator: "\n")
+                    DispatchQueue.main.async {
+                        switch error {
+                        case .apiError(let response):
+                            self?.errorMessage = response.message.values.joined(separator: "\n")
+                            
+                        case .decodingError(let message):
+                            self?.errorMessage = "데이터 처리 중 오류가 발생했습니다: \(message)"
+                            
+                        case .networkError(let message):
+                            self?.errorMessage = "인터넷 연결을 확인해 주세요: \(message)"
+                            
+                        case .unknown(let message):
+                            self?.errorMessage = "알 수 없는 오류: \(message)"
+                        }
                         completion(false)
                     }
                 }
@@ -65,6 +76,9 @@ class LoginViewModel: ObservableObject{
                     print("로그인 성공")
                     KeychainWrapper.standard.set(response.accessToken, forKey: "accessToken")
                     KeychainWrapper.standard.set(response.refreshToken, forKey: "refreshToken")
+                    print(KeychainWrapper.standard.string(forKey: "accessToken") ?? "없슴")
+                    print("리프레시토큰\(KeychainWrapper.standard.string(forKey: "refreshToken") ?? "없음")")
+                    self.errorMessage = nil
                     completion(true)
                 }
             }

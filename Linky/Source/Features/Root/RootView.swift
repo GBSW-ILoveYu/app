@@ -30,9 +30,9 @@ struct RootView: View {
                 case .signUp:
                     SignUpView(viewModel: .init(container: container))
                         .navigationBarBackButtonHidden()
-                    
+                        
                 case .main:
-                    MenuView(viewModel: .init())
+                    MenuView(viewModel: .init(container: container))
                         .navigationBarBackButtonHidden()
                     
                 case .upload:

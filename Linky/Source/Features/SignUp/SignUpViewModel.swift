@@ -8,23 +8,22 @@
 import Foundation
 import Combine
 
-class SignUpViewModel: ObservableObject{
+class SignUpViewModel: ObservableObject {
     @Published var name: String = ""
-    @Published var id : String = ""
+    @Published var id: String = ""
     @Published var password: String = ""
     @Published var passwordCheck: String = ""
     @Published var email: String = ""
     
     @Published var errorMessage: String? = nil
-    @Published var errorBox : Set<SignUpField> = []
+    @Published var errorBox: Set<SignUpField> = []
     
     private var container: DIContainer
     private var subscriber = Set<AnyCancellable>()
     
-    init(container: DIContainer){
+    init(container: DIContainer) {
         self.container = container
     }
-    
     
     func signUp(completion: @escaping (Bool) -> Void) {
         if password != passwordCheck {
@@ -48,29 +47,40 @@ class SignUpViewModel: ObservableObject{
                     break
                 case .failure(let error):
                     DispatchQueue.main.async {
-                        self?.errorMessage = error.message.values.joined(separator: "\n")
-                        
-                        var errorFields :Set<SignUpField> = []
-                        let messages = error.message.values
-                        for message in messages {
-                            if message.contains("nickName") {
-                                errorFields.insert(.name)
-                            }
-                            if message.contains("userId") {
-                                errorFields.insert(.id)
-                            }
-                            if message.contains("password") {
-                                errorFields.insert(.password)
-                            }
-                            if message.contains("email") {
-                                errorFields.insert(.email)
-                            }
-                            if message.contains("이메일") {
-                                errorFields.insert(.email)
-                            }
+                        switch error {
+                        case .apiError(let response):
+                            self?.errorMessage = response.message.values.joined(separator: "\n")
                             
+                            var errorFields: Set<SignUpField> = []
+                            let messages = response.message.values
+                            for message in messages {
+                                if message.contains("nickName") {
+                                    errorFields.insert(.name)
+                                }
+                                if message.contains("userId") {
+                                    errorFields.insert(.id)
+                                }
+                                if message.contains("password") {
+                                    errorFields.insert(.password)
+                                }
+                                if message.contains("email") || message.contains("이메일") {
+                                    errorFields.insert(.email)
+                                }
+                            }
+                            self?.errorBox = errorFields
+                            
+                        case .decodingError(let message):
+                            self?.errorMessage = "데이터 처리 중 오류가 발생했습니다: \(message)"
+                            self?.errorBox = []
+                            
+                        case .networkError(let message):
+                            self?.errorMessage = "네트워크 연결에 문제가 있습니다: \(message)"
+                            self?.errorBox = []
+                            
+                        case .unknown(let message):
+                            self?.errorMessage = "알 수 없는 오류: \(message)"
+                            self?.errorBox = []
                         }
-                        self?.errorBox = errorFields
                         completion(false)
                     }
                 }
@@ -78,9 +88,10 @@ class SignUpViewModel: ObservableObject{
                 DispatchQueue.main.async {
                     print("회원가입 성공: \(response)")
                     self.errorMessage = nil
+                    self.errorBox = []
                     completion(true)
                 }
-            }.store(in: &subscriber)
-        
+            }
+            .store(in: &subscriber)
     }
 }
