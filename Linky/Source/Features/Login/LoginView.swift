@@ -54,7 +54,7 @@ struct LoginView: View {
                     title: Text("로그인 성공"),
                     message: Text("로그인이 완료되었습니다."),
                     dismissButton: .default(Text("확인")){
-                        viewModel.send(action: .login)
+                        viewModel.send(action: .goLogin)
                     }
                 )
             case .error(let message):

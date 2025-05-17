@@ -35,10 +35,6 @@ struct RootView: View {
                     MenuView(viewModel: .init(container: container))
                         .navigationBarBackButtonHidden()
                     
-                case .upload:
-                    UploadOkVIew()
-                        .navigationBarBackButtonHidden()
-                    
                 case .categoryDetail(let category):
                     CategoryDetailView(category: category)
                         .navigationBarBackButtonHidden()

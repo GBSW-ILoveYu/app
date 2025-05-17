@@ -58,7 +58,7 @@ class MenuViewModel: ObservableObject{
                 switch completion{
                 case .finished:
                     break
-                case .failure(let error):
+                case .failure:
                     self?.phase = .fail
                 }
             } receiveValue: { [weak self] user in

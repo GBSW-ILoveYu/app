@@ -10,11 +10,6 @@ import Alamofire
 import Combine
 import SwiftKeychainWrapper
 
-class CancellableStore {
-    static let shared = CancellableStore()
-    var set: Set<AnyCancellable> = []
-}
-
 protocol UserServiceType {
     func getUser() -> AnyPublisher<User, UserError>
     func refreshToken() -> AnyPublisher<TokenResponse, UserError>
@@ -24,6 +19,8 @@ class UserService : UserServiceType {
     private let url = "\(APIConstants.url)/auth"
     private var isRefreshing = false
     
+    private var cancellables = Set<AnyCancellable>()
+    
     func getUser() -> AnyPublisher<User, UserError> {
         guard let accessToken = KeychainWrapper.standard.string(forKey: "accessToken") else {
             return Fail(error: UserError.noToken).eraseToAnyPublisher()
@@ -32,7 +29,7 @@ class UserService : UserServiceType {
         let headers: HTTPHeaders = [
             "Authorization" : "Bearer \(accessToken)"
         ]
-//        print(headers)
+
         return Future<User,UserError> { promise in
             AF.request("\(self.url)/me",
                        method: .get,
@@ -53,7 +50,7 @@ class UserService : UserServiceType {
                             } receiveValue: { user in
                                 promise(.success(user))
                             }
-                            .store(in: &CancellableStore.shared.set)
+                            .store(in: &self.cancellables)
                     } else if let data = response.data, let errorResponse = try? JSONDecoder().decode(UserErrorResponse.self, from: data) {
                         promise(.failure(.serverError(errorResponse)))
                     } else {

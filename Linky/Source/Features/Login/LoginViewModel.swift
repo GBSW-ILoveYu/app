@@ -12,6 +12,7 @@ import SwiftKeychainWrapper
 class LoginViewModel: ObservableObject{
     enum Action{
         case login
+        case goLogin
         case goSignUp
     }
     
@@ -31,11 +32,9 @@ class LoginViewModel: ObservableObject{
     func send(action: Action){
         switch action {
         case .login:
-            login { success in
-                if success {
-                    self.pathModel.send(action: .push(.main))
-                }
-            }
+            login { _ in }
+        case .goLogin:
+            self.pathModel.send(action: .push(.main))
         case .goSignUp:
             print("회원가입으로")
             self.pathModel.send(action: .push(.signUp))

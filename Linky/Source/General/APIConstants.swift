@@ -11,4 +11,5 @@ struct APIConstants {
     static let url = "http://localhost"
     static let signUpURL = "\(url)/auth/signUp"
     static let loginURL = "\(url)/auth/signin"
+    static let linkURL = "\(url)/links"
 }
