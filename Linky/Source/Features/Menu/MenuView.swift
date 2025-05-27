@@ -8,6 +8,7 @@ import SwiftUI
 
 struct MenuView: View {
     @StateObject var viewModel : MenuViewModel
+    @EnvironmentObject var container: DIContainer
     var body: some View {
         switch viewModel.phase{
         case .notRequested:
@@ -57,7 +58,7 @@ struct MenuView: View {
     func tabContent(for tab: TabType) -> some View {
         switch tab {
         case .main:
-            MainView()
+            MainView(viewModel: .init(container: container))
         case .upload:
             UploadView(viewModel: UploadViewModel(container: DIContainer(services: Services())))
         case .search:
@@ -70,4 +71,6 @@ struct MenuView: View {
 #Preview {
     MenuView(viewModel: .init(container: DIContainer(services: StubServices())))
         .environmentObject(RootViewModel())
+        .environmentObject(DIContainer(services: StubServices()))
+    
 }

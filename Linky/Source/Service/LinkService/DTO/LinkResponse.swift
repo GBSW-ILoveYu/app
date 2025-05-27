@@ -1,5 +1,5 @@
 //
-//  sendLinkResponse.swift
+//  LinkResponse.swift
 //  Linky
 //
 //  Created by 박성민 on 5/14/25.
@@ -12,7 +12,7 @@ struct linkUser : Decodable {
     let nickName: String
     let imageUri: String?
 }
-struct sendLinkResponse: Decodable {
+struct LinkResponse: Decodable {
     let id : Int
     let url: String
     let category: String

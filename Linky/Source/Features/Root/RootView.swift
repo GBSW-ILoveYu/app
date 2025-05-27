@@ -36,7 +36,7 @@ struct RootView: View {
                         .navigationBarBackButtonHidden()
                     
                 case .categoryDetail(let category):
-                    CategoryDetailView(category: category)
+                    CategoryDetailView(category: category, viewModel: .init(container: container))
                         .navigationBarBackButtonHidden()
                 }
             }

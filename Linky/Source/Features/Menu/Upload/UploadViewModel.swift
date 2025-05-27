@@ -16,7 +16,7 @@ class UploadViewModel : ObservableObject{
     
     @Published var text: String = ""
     @Published var phase: Phase = .notRequested
-    
+    @Published var category: String = ""
     private var container : DIContainer
     private var subscriber = Set<AnyCancellable>()
     init(container: DIContainer){
@@ -36,13 +36,14 @@ class UploadViewModel : ObservableObject{
                         print("실패")
                         self.phase = .fail
                     }
-                } receiveValue: { response in
-                    print(response)
-                    self.phase = .success
+                } receiveValue: { [weak self] response in
+                    self?.category = response
+                    self?.phase = .success
                 }.store(in: &subscriber)
         case .resetPhase:
             self.phase = .notRequested
             self.text = ""
+            self.category = ""
         }
     }
 }

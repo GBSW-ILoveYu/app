@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct UploadOkVIew: View {
-    var category : String = "음악"
+    var category : String
     @EnvironmentObject var menuViewModel : MenuViewModel
-    @StateObject var viewModel : UploadViewModel
+    @EnvironmentObject var viewModel : UploadViewModel
     var body: some View {
         ZStack{
             Color.customSkyBlue
@@ -49,6 +49,7 @@ struct UploadOkVIew: View {
 }
 
 #Preview {
-    UploadOkVIew(viewModel: UploadViewModel(container: DIContainer(services: StubServices())))
+    UploadOkVIew(category:"기타")
         .environmentObject(RootViewModel())
+        .environmentObject(UploadViewModel(container: .init(services: StubServices())))
 }

@@ -24,8 +24,11 @@ struct CustomLinkBox: View {
                 Text(title)
                     .font(AppFonts.wantedSansBold(size: 20))
                     .foregroundStyle(.customBlue)
+                    .lineLimit(1)
+                    .truncationMode(.tail)
+                    .frame(width: 70, alignment: .leading)
             }
-            .padding([.top,.trailing],50)
+            .padding([.top,.trailing],45)
             
         }
     }

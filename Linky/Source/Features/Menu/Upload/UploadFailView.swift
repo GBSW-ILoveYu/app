@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct UploadFailView: View {
+    @EnvironmentObject var menuViewModel : MenuViewModel
+    @EnvironmentObject var viewModel : UploadViewModel
     var body: some View {
         ZStack{
             Color.customSkyBlue
@@ -35,7 +37,9 @@ struct UploadFailView: View {
                 
                 UploadCustomButton(
                     title: "다시 저장하기",
-                    action: { print("다시 저장") },
+                    action: {
+                        viewModel.send(action: .resetPhase)
+                    },
                     backgroundColor: .customYellow
                 )
                 
@@ -44,7 +48,10 @@ struct UploadFailView: View {
                 
                 UploadCustomButton(
                     title: "홈으로",
-                    action: { print("홈") }
+                    action: {
+                        viewModel.send(action: .resetPhase)
+                        menuViewModel.selectedTab = .main
+                    }
                 )
             }
         }

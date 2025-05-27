@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject var menuViewModel: MenuViewModel
-    
+    @StateObject var viewModel: MainViewModel
     var body: some View {
         VStack{
             MainViewTitle(name: menuViewModel.user?.nickName ?? "없음")
@@ -27,6 +27,10 @@ struct MainView: View {
             VisitLinkRepository()
             Spacer()
         }
+        .onAppear{
+            print(viewModel.send(action: .getLink))
+        }
+        .environmentObject(viewModel)
     }
 }
 
@@ -107,7 +111,8 @@ fileprivate struct ProgressBar: View {
 }
 
 fileprivate struct LinkRepository: View {
-    
+    @EnvironmentObject var viewModel: MainViewModel
+    @EnvironmentObject var rootViewModel: RootViewModel
     var body: some View{
         VStack{
             Spacer()
@@ -122,11 +127,20 @@ fileprivate struct LinkRepository: View {
             Spacer()
             ScrollView(.horizontal,showsIndicators: false){
                 LazyHStack(spacing:20){
-                    CustomLinkBox()
-                    CustomLinkBox()
-                    CustomLinkBox()
-                    CustomLinkBox()
-                    CustomLinkBox()
+                    CustomLinkBox(number: "\(viewModel.totalLinkCount)", title: "전체")
+                        .onTapGesture {
+                            let category = Category(title: "전체", count: viewModel.totalLinkCount)
+                            rootViewModel.send(action: .push(.categoryDetail(category)))
+                        }
+                    ForEach(viewModel.categoryCounts.sorted(by: {$0.value > $1.value}), id: \.key){ category, count in
+                        if count > 0 {
+                            CustomLinkBox(number: "\(count)", title: category)
+                                .onTapGesture {
+                                    let category = Category(title: category, count: count)
+                                    rootViewModel.send(action: .push(.categoryDetail(category)))
+                                }
+                        }
+                    }
                 }
             }
             
@@ -156,5 +170,7 @@ fileprivate struct VisitLinkRepository: View {
     }
 }
 #Preview {
-    MainView()
+    MainView(viewModel: MainViewModel(container: DIContainer(services: StubServices())))
+        .environmentObject(MenuViewModel(container: .init(services: StubServices())))
+        .environmentObject(RootViewModel())
 }
