@@ -107,7 +107,15 @@ class LinkService: LinkServiceType {
                 case .failure(let error):
                     print(error.localizedDescription)
                     if error.responseCode == 400{
-                        promise(.failure(LinkError.missingUrlError))
+                        if let data = response.data{
+                            do{
+                                let errorResponse = try JSONDecoder().decode(LinkErrorResponse.self,from: data)
+                                let message = errorResponse.message
+                                promise(.failure(.urlError(message: message)))
+                            }catch{
+                                promise(.failure(.urlError(message: .one("알 수 없는 에러"))))
+                            }
+                        }
                     } else {
                         promise(.failure(LinkError.networkError))
                     }

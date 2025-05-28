@@ -21,7 +21,7 @@ struct UploadView: View {
             UploadOkVIew(category: viewModel.category)
                 .environmentObject(viewModel)
         case .fail:
-            UploadFailView()
+            UploadFailView(message:viewModel.errorMessage!)
                 .environmentObject(viewModel)
         }
     }

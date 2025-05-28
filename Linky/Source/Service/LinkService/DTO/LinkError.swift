@@ -9,6 +9,6 @@ import Foundation
 
 enum LinkError: Error {
     case decodingError
-    case missingUrlError
     case networkError
+    case urlError(message: OneOrMany<String>)
 }

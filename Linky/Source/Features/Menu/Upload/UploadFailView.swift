@@ -10,6 +10,7 @@ import SwiftUI
 struct UploadFailView: View {
     @EnvironmentObject var menuViewModel : MenuViewModel
     @EnvironmentObject var viewModel : UploadViewModel
+    var message: String
     var body: some View {
         ZStack{
             Color.customSkyBlue
@@ -22,7 +23,7 @@ struct UploadFailView: View {
                 Spacer()
                     .frame(height: 37)
                 
-                Text("링크 저장을 실패하였습니다.")
+                Text(message)
                     .font(AppFonts.wantedSansBold(size: 20))
                 
                 Spacer()
@@ -59,5 +60,5 @@ struct UploadFailView: View {
 }
 
 #Preview {
-    UploadFailView()
+    UploadFailView(message: "에러 발생 !!")
 }
