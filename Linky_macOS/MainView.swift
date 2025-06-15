@@ -1,14 +1,26 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  Linky_macOS
 //
 //  Created by 박성민 on 4/14/25.
 
 import SwiftUI
 
-struct macosApp: View {
+struct MainView: View {
     @State var text: String = ""
+    @EnvironmentObject var viewModel : AppViewModel
     var body: some View {
+        switch viewModel.currentView{
+        case .main:
+            linkBody
+        case .login:
+            LoginView()
+        case .signup:
+            SignUpView()
+        }
+    }
+    
+    var linkBody: some View {
         VStack {
             
             HStack {
@@ -18,18 +30,35 @@ struct macosApp: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 25)
-                // 폰트 왜안되냐 진짜 짜증난다 ㅋㅋㅋㅋㅋ
+                
                 Text("링크를 저장하세요")
-                    .font(.custom("Pretendard-Bold", size: 15))
+                    .font(.custom("Pretendard-Bold", size: 16))
                     .foregroundStyle(.customGray)
+                
                 Spacer()
+                
+                //MARK: - 로그인이 안되었을때만 뜨게해주는 로직 추가
+                Button{
+                    viewModel.currentView = .login
+                }label: {
+                    Text("로그인")
+                }
+                .buttonStyle(.plain)
+                
+                Button{
+                    viewModel.currentView = .signup
+                }label: {
+                    Text("회원가입")
+                }
+                .buttonStyle(.plain)
             }
+            
             Spacer()
                 .frame(height: 20)
             TextField("",text:$text)
                 .padding()
                 .textFieldStyle(PlainTextFieldStyle())
-                .frame(width: 459,height: 42)
+                .frame(width: 340,height: 42)
                 .background(.customGray1)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(
@@ -51,11 +80,12 @@ struct macosApp: View {
             .buttonStyle(PlainButtonStyle())
         }
         .padding()
-        .frame(width: 512,height: 228)
+        .frame(width: 400,height: 228)
         .background(.white)
     }
 }
 
 #Preview {
-    macosApp()
+    MainView()
+        .environmentObject(AppViewModel())
 }

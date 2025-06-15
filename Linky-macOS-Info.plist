@@ -6,8 +6,8 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Pretendard-Regular.ttf</string>
-		<string>Pretendard-Bold.ttf</string>
+		<string>Pretendard-Regular.otf</string>
+		<string>Pretendard-Bold.otf</string>
 	</array>
 </dict>
 </plist>

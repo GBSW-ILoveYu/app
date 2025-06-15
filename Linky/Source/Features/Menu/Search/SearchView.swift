@@ -8,24 +8,22 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var categories: [Category] = [
-        Category(title: "전체", count: 32),
-        Category(title: "IT", count: 6),
-        Category(title: "식물", count: 3),
-        Category(title: "음악", count: 4),
-        Category(title: "요리", count: 1)
-    ]
+    @StateObject var viewModel: SearchViewModel
     var body: some View {
-        CategoryListView(categories: categories)
+        CategoryListView(categories: viewModel.categoryCounts)
+            .onAppear{
+                viewModel.send(action: .getLink)
+            }
     }
 }
 
 fileprivate struct CategoryListView: View {
     @EnvironmentObject var pathModel: RootViewModel
-    let categories: [Category]
+    let categories: [String:Int]
     
     var body: some View{
         VStack(spacing:15){
+            
             HStack{
                 Spacer()
                     .frame(width: 27)
@@ -33,14 +31,19 @@ fileprivate struct CategoryListView: View {
                     .font(AppFonts.wantedSansBold(size: 18))
                 Spacer()
             }
-            ForEach(categories) { category in
-                Button(action: {
-                    pathModel.send(action: .push(.categoryDetail(category)))
-                }) {
-                    SearchContainer(
-                        number:"\(category.count)",
-                        title: category.title
-                    )
+            ScrollView{
+                ForEach(categories.sorted(by: { $0.key < $1.key }), id: \.key) { categorys, count in
+                    if count > 0{
+                        Button(action: {
+                            let category = Category(title: categorys, count: count)
+                            pathModel.send(action: .push(.categoryDetail(category)))
+                        }) {
+                            SearchContainer(
+                                number:"\(count)",
+                                title: categorys
+                            )
+                        }
+                    }
                 }
             }
             Spacer()
@@ -49,6 +52,6 @@ fileprivate struct CategoryListView: View {
 }
 
 #Preview {
-    SearchView()
+    SearchView(viewModel: SearchViewModel(container: .init(services: StubServices())))
         .environmentObject(RootViewModel())
 }

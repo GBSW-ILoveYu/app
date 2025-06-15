@@ -73,6 +73,10 @@ class LoginViewModel: ObservableObject{
             } receiveValue: { response in
                 DispatchQueue.main.async {
                     print("로그인 성공")
+                    // ShareExtension용 keyChain
+                    SharedKeyChain.shared.set(response.accessToken, forKey: "accessToken")
+                    SharedKeyChain.shared.set(response.refreshToken, forKey: "refreshToken")
+                    
                     KeychainWrapper.standard.set(response.accessToken, forKey: "accessToken")
                     KeychainWrapper.standard.set(response.refreshToken, forKey: "refreshToken")
                     print(KeychainWrapper.standard.string(forKey: "accessToken") ?? "없슴")

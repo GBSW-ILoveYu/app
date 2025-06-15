@@ -12,21 +12,23 @@ struct CategoryDetailView: View {
             ScrollView{
                 LazyVStack(alignment:.leading,spacing: 20){
                     ForEach(viewModel.links, id: \.id){ link in
-                        VStack(alignment: .leading, spacing: 6) {
-                            AsyncImage(url: URL(string: link.thumbnail)){ image in
-                                image.resizable()
-                                    .scaledToFit()
-                                    .frame(width: 350)
-                            } placeholder: {
-                                ProgressView()
+                        Link(destination: URL(string: link.url)!){
+                            VStack(alignment: .leading, spacing: 6) {
+                                AsyncImage(url: URL(string: link.thumbnail)){ image in
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: 350)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                
+                                Text(link.title)
+                                    .font(AppFonts.wantedSansMedium(size: 12))
+                                
+                                Text(link.description)
+                                    .font(AppFonts.wantedSansMedium(size: 11))
+                                    .foregroundColor(.gray)
                             }
-                            
-                            Text(link.title)
-                                .font(AppFonts.wantedSansMedium(size: 12))
-                            
-                            Text(link.description)
-                                .font(AppFonts.wantedSansMedium(size: 11))
-                                .foregroundColor(.gray)
                         }
                     }
                 }

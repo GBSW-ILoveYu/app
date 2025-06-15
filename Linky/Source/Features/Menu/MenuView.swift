@@ -60,9 +60,9 @@ struct MenuView: View {
         case .main:
             MainView(viewModel: .init(container: container))
         case .upload:
-            UploadView(viewModel: UploadViewModel(container: DIContainer(services: Services())))
+            UploadView(viewModel: .init(container: container))
         case .search:
-            SearchView()
+            SearchView(viewModel: .init(container: container))
         }
     }
     

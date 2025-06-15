@@ -12,9 +12,10 @@ struct linkUser : Decodable {
     let nickName: String
     let imageUri: String?
 }
+
 struct LinkResponse: Decodable {
     let id : Int
-    let url: String
+    var url: String
     let category: String
     let title: String
     let description: String

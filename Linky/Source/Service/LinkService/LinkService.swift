@@ -44,7 +44,6 @@ class LinkService: LinkServiceType {
     
     func detailgetLink(categoryTitle: String) -> AnyPublisher<[LinkResponse],LinkError>{
         let baseURL = APIConstants.linkURL
-        
         let token = KeychainWrapper.standard.string(forKey: "accessToken") ?? "없음"
         
         let headers: HTTPHeaders = [
@@ -64,7 +63,7 @@ class LinkService: LinkServiceType {
                 switch response.result{
                 case .success(let value):
                     promise(.success(value))
-                case .failure(let error):
+                case .failure:
                     promise(.failure(LinkError.networkError))
                 }
             }

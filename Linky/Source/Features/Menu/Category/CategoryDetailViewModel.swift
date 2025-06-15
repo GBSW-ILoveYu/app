@@ -25,7 +25,6 @@ class CategoryDetailViewModel: ObservableObject {
     func send(action : Action){
         switch action {
         case .detailgetLink:
-            
             container.services.linkService.detailgetLink(categoryTitle: categoryTitle)
                 .sink { completion in
                     switch completion {
@@ -34,10 +33,18 @@ class CategoryDetailViewModel: ObservableObject {
                     case .failure(let error):
                         print(error.localizedDescription)
                     }
-                } receiveValue: { [weak self]value in
-                    self?.links = value
+                } receiveValue: { [weak self] value in
+                    self?.links = self?.urlFormatter(links: value) ?? []
+                    print(value)
                 }.store(in: &subscriber)
-            
+        }
+    }
+    
+    func urlFormatter(links: [LinkResponse]) -> [LinkResponse] {
+        return links.map { link in
+            var modifiedLink = link
+            modifiedLink.url = "https://\(link.url)"
+            return modifiedLink
         }
     }
 }

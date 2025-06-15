@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		062035AD2DED982E000C1182 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 062035AC2DED982E000C1182 /* SwiftKeychainWrapper */; };
+		062035AF2DED9B77000C1182 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 062035AE2DED9B77000C1182 /* Alamofire */; };
 		06DB8D0E2DC721E000771BC2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 06DB8D0D2DC721E000771BC2 /* Alamofire */; };
 		06DB8D262DC7F87D00771BC2 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 06DB8D252DC7F87D00771BC2 /* SwiftKeychainWrapper */; };
 		06DCB8BC2DA36D1C000B649D /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 06DCB8B22DA36D1C000B649D /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -43,10 +45,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		06DCB8C12DA36D1C000B649D /* Exceptions for "ShareExtension" folder in "ShareExtension" target */ = {
+		064D45262DEDB7C80083AFB2 /* Exceptions for "ShareExtension" folder in "Linky" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"/Localized: MainInterface.storyboard",
 				Info.plist,
+				ShareViewController.swift,
+			);
+			target = 062DFC1E2D8A6A1200DF43BF /* Linky */;
+		};
+		064D45272DEDB7C80083AFB2 /* Exceptions for "ShareExtension" folder in "ShareExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: MainInterface.storyboard",
+				ShareViewController.swift,
 			);
 			target = 06DCB8B12DA36D1C000B649D /* ShareExtension */;
 		};
@@ -68,10 +80,11 @@
 			path = Linky;
 			sourceTree = "<group>";
 		};
-		06DCB8B32DA36D1C000B649D /* ShareExtension */ = {
+		064D45232DEDB7C80083AFB2 /* ShareExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				06DCB8C12DA36D1C000B649D /* Exceptions for "ShareExtension" folder in "ShareExtension" target */,
+				064D45262DEDB7C80083AFB2 /* Exceptions for "ShareExtension" folder in "Linky" target */,
+				064D45272DEDB7C80083AFB2 /* Exceptions for "ShareExtension" folder in "ShareExtension" target */,
 			);
 			path = ShareExtension;
 			sourceTree = "<group>";
@@ -97,6 +110,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				062035AD2DED982E000C1182 /* SwiftKeychainWrapper in Frameworks */,
+				062035AF2DED9B77000C1182 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,10 +128,10 @@
 		062DFC162D8A6A1200DF43BF = {
 			isa = PBXGroup;
 			children = (
-				062DFC212D8A6A1200DF43BF /* Linky */,
-				06DCB8B32DA36D1C000B649D /* ShareExtension */,
-				06F2F4B12DACDB4300980D16 /* Linky_macOS */,
 				062DFC202D8A6A1200DF43BF /* Products */,
+				064D45232DEDB7C80083AFB2 /* ShareExtension */,
+				062DFC212D8A6A1200DF43BF /* Linky */,
+				06F2F4B12DACDB4300980D16 /* Linky_macOS */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,6 +164,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				062DFC212D8A6A1200DF43BF /* Linky */,
+				064D45232DEDB7C80083AFB2 /* ShareExtension */,
 			);
 			name = Linky;
 			packageProductDependencies = (
@@ -171,11 +187,10 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				06DCB8B32DA36D1C000B649D /* ShareExtension */,
-			);
 			name = ShareExtension;
 			packageProductDependencies = (
+				062035AC2DED982E000C1182 /* SwiftKeychainWrapper */,
+				062035AE2DED9B77000C1182 /* Alamofire */,
 			);
 			productName = ShareExtension;
 			productReference = 06DCB8B22DA36D1C000B649D /* ShareExtension.appex */;
@@ -660,6 +675,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		062035AC2DED982E000C1182 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06DB8D242DC7F87D00771BC2 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
+		062035AE2DED9B77000C1182 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06DB8D0C2DC721E000771BC2 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		06DB8D0D2DC721E000771BC2 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 06DB8D0C2DC721E000771BC2 /* XCRemoteSwiftPackageReference "Alamofire" */;
