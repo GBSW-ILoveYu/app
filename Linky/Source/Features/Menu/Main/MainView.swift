@@ -28,7 +28,8 @@ struct MainView: View {
             Spacer()
         }
         .onAppear{
-            print(viewModel.send(action: .getLink))
+            viewModel.send(action: .getLink)
+            viewModel.send(action: .recentlyLink)
         }
         .environmentObject(viewModel)
     }
@@ -153,6 +154,8 @@ fileprivate struct LinkRepository: View {
 }
 
 fileprivate struct VisitLinkRepository: View {
+    @EnvironmentObject var viewModel: MainViewModel
+    
     var body: some View{
         VStack{
             HStack{
@@ -163,8 +166,27 @@ fileprivate struct VisitLinkRepository: View {
                 Spacer()
             }
             ScrollView(.horizontal,showsIndicators: false){
-                Link("label", destination: URL(string: "https://www.naver.com/")!)
+                ForEach(viewModel.recentlyLinks, id: \.id){ link in
+                    Link(destination: URL(string: link.url)!){
+                        VStack(alignment: .leading, spacing: 6) {
+                            AsyncImage(url: URL(string: link.thumbnail)){ image in
+                                image.resizable()
+                                    .scaledToFit()
+                                    .frame(width: 180)
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            Text(link.title)
+                                .font(AppFonts.wantedSansMedium(size: 18))
+                                .foregroundStyle(.black)
+                            Text(link.description)
+                                .font(AppFonts.wantedSansMedium(size: 11))
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
             }
+            .padding()
             //MARK: - 최근 열어본 링크 페이지 구현
         }
     }

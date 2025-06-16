@@ -11,10 +11,24 @@ import Combine
 class MainViewModel: ObservableObject{
     enum Action{
         case getLink
+        case recentlyLink
     }
     
     @Published var categoryCounts: [String: Int] = [:]
     @Published var totalLinkCount: Int = 0
+    @Published var recentlyLinks: [LinkResponse] = [
+        LinkResponse(
+            id: 1,
+            url: "https://www.acmicpc.net/problem/1021",
+            category: "교육 & 학습",
+            title: "ㅁㄴㅇㅁㄴㅇ",
+            description: "ㅁㄴ어ㅏㅁ너이ㅏㅁ니아",
+            thumbnail: "https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/images/boj-og.png",
+            createdAt: "1223",
+            updatedAt: "1234",
+            user: linkUser(id: 1, nickName: "박성민", imageUri: nil)
+        )
+    ]
     
     private var categories = ["IT","경제","디자인","교육 & 학습","여가","뉴스","기타","음식","음악"]
     private var container: DIContainer
@@ -35,8 +49,21 @@ class MainViewModel: ObservableObject{
                     case .failure:
                         print("erorr")
                     }
-                } receiveValue: { links in
-                    self.calculateCategoryCounts(links)
+                } receiveValue: { [weak self] links in
+                    print(links)
+                    self?.calculateCategoryCounts(links)
+                }.store(in: &subscriber)
+        case .recentlyLink:
+            container.services.linkService.recentlyOpened()
+                .sink { completion in
+                    switch completion{
+                    case .finished:
+                        break
+                    case .failure:
+                        print("error")
+                    }
+                } receiveValue: { [weak self] links in
+                    self?.recentlyLinks = links
                 }.store(in: &subscriber)
         }
     }

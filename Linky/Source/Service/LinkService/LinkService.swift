@@ -15,6 +15,8 @@ protocol LinkServiceType {
     func detailgetLink(categoryTitle: String) -> AnyPublisher<[LinkResponse],LinkError>
     func sendLink(url: String) -> AnyPublisher<String,LinkError>
     func getLinkCount() -> AnyPublisher<Void,LinkError>
+    func recentlyOpened() -> AnyPublisher<[LinkResponse],LinkError>
+    func detailGetLink(id: Int) -> AnyPublisher<LinkResponse,LinkError>
 }
 
 class LinkService: LinkServiceType {
@@ -126,6 +128,65 @@ class LinkService: LinkServiceType {
     func getLinkCount() -> AnyPublisher<Void,LinkError> {
         Empty().eraseToAnyPublisher()
     }
+    
+    func recentlyOpened() -> AnyPublisher<[LinkResponse],LinkError> {
+        let baseURL = APIConstants.linkURL
+        
+        let token = KeychainWrapper.standard.string(forKey: "accessToken") ?? "없음"
+        print("Access Token: \(token)")
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        return Future<[LinkResponse],LinkError> { promise in
+            AF.request("\(baseURL)/recently-opened",
+                       method: .get,
+                       encoding: URLEncoding.default,
+                       headers: headers)
+            .validate()
+            .responseDecodable(of: [LinkResponse].self){ response in
+                switch response.result{
+                case .success(let value):
+                    print(value)
+                    promise(.success(value))
+                case .failure:
+                    promise(.failure(LinkError.networkError))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
+    
+    func detailGetLink(id: Int) -> AnyPublisher<LinkResponse,LinkError>{
+        let baseURL = APIConstants.linkURL
+        
+        let token = KeychainWrapper.standard.string(forKey: "accessToken") ?? "없음"
+        print("Access Token: \(token)")
+        
+        let parameters: [String: Any] = [
+            "id": id
+        ]
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        
+        return Future<LinkResponse,LinkError> { promise in
+            AF.request("\(baseURL)/\(id)",
+                       method: .get,
+                       parameters: parameters,
+                       encoding: URLEncoding.default,
+                       headers: headers)
+            .validate()
+            .responseDecodable(of: LinkResponse.self){ response in
+                switch response.result{
+                case .success(let value):
+                    promise(.success(value))
+                case .failure:
+                    promise(.failure(LinkError.networkError))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
 }
 
 class StubLinkService: LinkServiceType{
@@ -142,6 +203,14 @@ class StubLinkService: LinkServiceType{
     }
     
     func getLinkCount() -> AnyPublisher<Void,LinkError> {
+        Empty().eraseToAnyPublisher()
+    }
+    
+    func recentlyOpened() -> AnyPublisher<[LinkResponse],LinkError> {
+        Empty().eraseToAnyPublisher()
+    }
+    
+    func detailGetLink(id: Int) -> AnyPublisher<LinkResponse,LinkError>{
         Empty().eraseToAnyPublisher()
     }
 }

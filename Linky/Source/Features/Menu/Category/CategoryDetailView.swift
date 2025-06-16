@@ -4,6 +4,7 @@ struct CategoryDetailView: View {
     let category: Category
     @EnvironmentObject var pathModel: RootViewModel
     @StateObject var viewModel: CategoryDetailViewModel
+    @Environment(\.openURL) private var openURL
     var body: some View {
         VStack {
             Spacer().frame(height: 1)
@@ -12,7 +13,14 @@ struct CategoryDetailView: View {
             ScrollView{
                 LazyVStack(alignment:.leading,spacing: 20){
                     ForEach(viewModel.links, id: \.id){ link in
-                        Link(destination: URL(string: link.url)!){
+                        Button(action: {
+                            Task {
+                                viewModel.send(action: .getLink(id: link.id))
+                            }
+                            if let url = URL(string: link.url) {
+                                openURL(url)
+                            }
+                        }){
                             VStack(alignment: .leading, spacing: 6) {
                                 AsyncImage(url: URL(string: link.thumbnail)){ image in
                                     image.resizable()

@@ -11,6 +11,7 @@ import Combine
 class CategoryDetailViewModel: ObservableObject {
     enum Action {
         case detailgetLink
+        case getLink(id: Int)
     }
     
     @Published var categoryTitle: String = ""
@@ -18,6 +19,7 @@ class CategoryDetailViewModel: ObservableObject {
     
     private var container: DIContainer
     private var subscriber = Set<AnyCancellable>()
+    
     init(container: DIContainer) {
         self.container = container
     }
@@ -35,6 +37,18 @@ class CategoryDetailViewModel: ObservableObject {
                     }
                 } receiveValue: { [weak self] value in
                     self?.links = self?.urlFormatter(links: value) ?? []
+                    print(value)
+                }.store(in: &subscriber)
+        case .getLink(let id):
+            container.services.linkService.detailGetLink(id: id)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                } receiveValue: { value in
                     print(value)
                 }.store(in: &subscriber)
         }
