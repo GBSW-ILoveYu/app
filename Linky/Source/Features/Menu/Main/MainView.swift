@@ -155,21 +155,26 @@ fileprivate struct LinkRepository: View {
 
 fileprivate struct VisitLinkRepository: View {
     @EnvironmentObject var viewModel: MainViewModel
+    @Environment(\.openURL) private var openURL
     
-    var body: some View{
-        VStack{
-            HStack{
+    var body: some View {
+        VStack {
+            HStack {
                 Spacer()
                     .frame(width: 30)
                 Text("최근 열어 본 링크")
                     .font(AppFonts.wantedSansBold(size: 18))
                 Spacer()
             }
-            ScrollView(.horizontal,showsIndicators: false){
-                ForEach(viewModel.recentlyLinks, id: \.id){ link in
-                    Link(destination: URL(string: link.url)!){
+            ScrollView(.horizontal, showsIndicators: false) {
+                ForEach(viewModel.recentlyLinks, id: \.id) { link in
+                    Button(action: {
+                        if let url = URL(string: link.url) {
+                            openURL(url)
+                        }
+                    }) {
                         VStack(alignment: .leading, spacing: 6) {
-                            AsyncImage(url: URL(string: link.thumbnail)){ image in
+                            AsyncImage(url: URL(string: link.thumbnail)) { image in
                                 image.resizable()
                                     .scaledToFit()
                                     .frame(width: 180)
@@ -179,18 +184,23 @@ fileprivate struct VisitLinkRepository: View {
                             Text(link.title)
                                 .font(AppFonts.wantedSansMedium(size: 18))
                                 .foregroundStyle(.black)
+                                .lineLimit(1)
+                                .padding(.horizontal, 20)
                             Text(link.description)
                                 .font(AppFonts.wantedSansMedium(size: 11))
                                 .foregroundColor(.gray)
+                                .lineLimit(1)
+                                .padding(.horizontal, 20)
                         }
+                        .frame(width: 150, height: 120)
+                        .padding(.horizontal, 20)
                     }
                 }
             }
-            .padding()
-            //MARK: - 최근 열어본 링크 페이지 구현
         }
     }
 }
+
 #Preview {
     MainView(viewModel: MainViewModel(container: DIContainer(services: StubServices())))
         .environmentObject(MenuViewModel(container: .init(services: StubServices())))

@@ -21,8 +21,8 @@ class MainViewModel: ObservableObject{
             id: 1,
             url: "https://www.acmicpc.net/problem/1021",
             category: "교육 & 학습",
-            title: "ㅁㄴㅇㅁㄴㅇ",
-            description: "ㅁㄴ어ㅏㅁ너이ㅏㅁ니아",
+            title: "ㅁㄴㅇㅁㄴ어ㅏㅁ너이dwqjnldㄴ어ㅏㅁ너이dwqjnldㄴㅇ",
+            description: "ㅁㄴ어ㅏㅁ너이dwqjnldkqwㄴ어ㅏㅁ너이dwqjnldnjldkqㅏㅁ니아",
             thumbnail: "https://onlinejudgeimages.s3-ap-northeast-1.amazonaws.com/images/boj-og.png",
             createdAt: "1223",
             updatedAt: "1234",
@@ -63,7 +63,7 @@ class MainViewModel: ObservableObject{
                         print("error")
                     }
                 } receiveValue: { [weak self] links in
-                    self?.recentlyLinks = links
+                    self?.recentlyLinks = self?.urlFormatter(links: links) ?? []
                 }.store(in: &subscriber)
         }
     }
@@ -74,15 +74,21 @@ class MainViewModel: ObservableObject{
         
         for link in links {
             let category = link.category
-//            print("Link category: \(category)")
             if counts[category] != nil {
                 counts[category]! += 1
             } else {
                 counts["기타"] = (counts["기타"] ?? 0) + 1
             }
         }
-//        print("Calculated counts: \(counts)")
         self.categoryCounts = counts
         self.totalLinkCount = links.count
+    }
+    
+    func urlFormatter(links: [LinkResponse]) -> [LinkResponse] {
+        return links.map { link in
+            var modifiedLink = link
+            modifiedLink.url = "https://\(link.url)"
+            return modifiedLink
+        }
     }
 }
