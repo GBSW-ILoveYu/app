@@ -18,10 +18,12 @@ struct CustomTextField: View {
             Spacer()
         }
         .padding(.horizontal,20)
+        Spacer()
+            .frame(height: 10)
         TextField("",text: $text)
             .padding()
             .textFieldStyle(PlainTextFieldStyle())
-            .frame(width: 330,height: 50)
+            .frame(width: 330,height: 40)
             .background(.customGray1)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .overlay(

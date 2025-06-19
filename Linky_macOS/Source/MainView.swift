@@ -7,7 +7,6 @@
 import SwiftUI
 
 struct MainView: View {
-    @State var text: String = ""
     @EnvironmentObject var viewModel : AppViewModel
     var body: some View {
         switch viewModel.currentView{
@@ -36,26 +35,11 @@ struct MainView: View {
                     .foregroundStyle(.customGray)
                 
                 Spacer()
-                
-                //MARK: - 로그인이 안되었을때만 뜨게해주는 로직 추가
-                Button{
-                    viewModel.currentView = .login
-                }label: {
-                    Text("로그인")
-                }
-                .buttonStyle(.plain)
-                
-                Button{
-                    viewModel.currentView = .signup
-                }label: {
-                    Text("회원가입")
-                }
-                .buttonStyle(.plain)
             }
             
             Spacer()
                 .frame(height: 20)
-            TextField("",text:$text)
+            TextField("",text:$viewModel.sendUrl)
                 .padding()
                 .textFieldStyle(PlainTextFieldStyle())
                 .frame(width: 340,height: 42)
@@ -68,10 +52,10 @@ struct MainView: View {
             Spacer()
                 .frame(height: 20)
             Button{
-                
+                viewModel.send(action: .addLink)
             }label: {
                 Text("저장하기")
-                    .frame(width: 151, height: 42)
+                    .frame(width: 121, height: 40)
                     .font(.custom("Pretendard-Bold", size: 15))
                     .foregroundStyle(.white)
                     .background(.customBlue)

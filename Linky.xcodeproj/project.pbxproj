@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		062035AD2DED982E000C1182 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 062035AC2DED982E000C1182 /* SwiftKeychainWrapper */; };
 		062035AF2DED9B77000C1182 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 062035AE2DED9B77000C1182 /* Alamofire */; };
+		06602C942E02A2EF00DB0052 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 06602C932E02A2EF00DB0052 /* Alamofire */; };
+		06602C962E02A2FA00DB0052 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 06602C952E02A2FA00DB0052 /* SwiftKeychainWrapper */; };
 		06DB8D0E2DC721E000771BC2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 06DB8D0D2DC721E000771BC2 /* Alamofire */; };
 		06DB8D262DC7F87D00771BC2 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 06DB8D252DC7F87D00771BC2 /* SwiftKeychainWrapper */; };
 		06DCB8BC2DA36D1C000B649D /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 06DCB8B22DA36D1C000B649D /* ShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -119,6 +121,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06602C962E02A2FA00DB0052 /* SwiftKeychainWrapper in Frameworks */,
+				06602C942E02A2EF00DB0052 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +217,8 @@
 			);
 			name = Linky_macOS;
 			packageProductDependencies = (
+				06602C932E02A2EF00DB0052 /* Alamofire */,
+				06602C952E02A2FA00DB0052 /* SwiftKeychainWrapper */,
 			);
 			productName = Linky_macOS;
 			productReference = 06F2F4B02DACDB4300980D16 /* Linky_macOS.app */;
@@ -684,6 +690,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 06DB8D0C2DC721E000771BC2 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		06602C932E02A2EF00DB0052 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06DB8D0C2DC721E000771BC2 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		06602C952E02A2FA00DB0052 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 06DB8D242DC7F87D00771BC2 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
 		};
 		06DB8D0D2DC721E000771BC2 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

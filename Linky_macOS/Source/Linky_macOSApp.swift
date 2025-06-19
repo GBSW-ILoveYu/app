@@ -13,20 +13,6 @@ enum ViewPath {
     case signup
 }
 
-class AppViewModel: ObservableObject{
-    @Published var currentView: ViewPath = .main
-    var dynamicHeight: CGFloat {
-        switch currentView {
-        case .main:
-            return 228
-        case .login:
-            return 380
-        case .signup:
-            return 600
-        }
-    }
-}
-
 @main
 struct Linky_macOSApp: App {
     @StateObject var viewModel = AppViewModel()
@@ -36,8 +22,13 @@ struct Linky_macOSApp: App {
             MainView()
                 .environmentObject(viewModel)
                 .frame(width: 400, height: viewModel.dynamicHeight)
+                .onAppear{
+                    
+                }
         } label: {
             Image("logo")
+                .resizable()
+                .frame(width: 10)
         }
         .menuBarExtraStyle(.window)
     }

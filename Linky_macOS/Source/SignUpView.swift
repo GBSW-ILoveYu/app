@@ -8,12 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @State var name: String = ""
-    @State var id : String = ""
-    @State var password: String = ""
-    @State var passwordCheck: String = ""
-    @State var email: String = ""
-    
+    @EnvironmentObject var viewModel : AppViewModel
     var body: some View {
         VStack {
             HStack {
@@ -35,21 +30,38 @@ struct SignUpView: View {
             .padding(.horizontal,10)
             Spacer()
                 .frame(height: 20)
-            
-            CustomTextField(title: "이름", text: $name)
-                        
-            CustomTextField(title: "아이디", text: $id)
-            
-            CustomTextField(title: "비밀번호", text: $password)
-            
-            CustomTextField(title: "비밀번호확인", text: $passwordCheck)
-            
-            CustomTextField(title: "이메일", text: $email)
+            CustomTextField(title: "이름", text: $viewModel.signUp.name)
             Spacer()
-                .frame(height: 30)
+                .frame(height: 10)
+            CustomTextField(title: "아이디", text: $viewModel.signUp.id)
+            Spacer()
+                .frame(height: 10)
+            CustomTextField(title: "비밀번호", text: $viewModel.signUp.password)
+            Spacer()
+                .frame(height: 10)
+            CustomTextField(title: "비밀번호확인", text: $viewModel.signUp.passwordCheck)
+            Spacer()
+                .frame(height: 10)
+            CustomTextField(title: "이메일", text: $viewModel.signUp.email)
+            
+            Spacer()
+                .frame(height: 10)
+            
+            Text("링키의 계정이 있으신가요?")
+                .foregroundStyle(.gray)
+                .font(.system(size: 11))
+            Text("회원가입하기")
+                .foregroundStyle(.customNavy)
+                .font(.system(size: 11))
+                .onTapGesture {
+                    viewModel.currentView = .login
+                }
+            
+            Spacer()
+                .frame(height: 10)
             
             Button{
-                
+                viewModel.send(action: .signup)
             }label: {
                 Text("회원가입")
                     .frame(width: 151, height: 42)
@@ -63,10 +75,11 @@ struct SignUpView: View {
         .padding()
         .frame(width: 400,height: 600)
         .background(.white)
-
+        
     }
 }
 
 #Preview {
     SignUpView()
+        .environmentObject(AppViewModel())
 }
