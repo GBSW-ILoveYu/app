@@ -12,10 +12,12 @@ class MainViewModel: ObservableObject{
     enum Action{
         case getLink
         case recentlyLink
+        case countLink
     }
     
     @Published var categoryCounts: [String: Int] = [:]
     @Published var totalLinkCount: Int = 0
+    @Published var openCount: Int = 0
     @Published var recentlyLinks: [LinkResponse] = [
         LinkResponse(
             id: 1,
@@ -65,6 +67,23 @@ class MainViewModel: ObservableObject{
                 } receiveValue: { [weak self] links in
                     self?.recentlyLinks = self?.urlFormatter(links: links) ?? []
                 }.store(in: &subscriber)
+            
+        case .countLink:
+            container.services.linkService.openCount()
+                .sink { completion in
+                    switch completion{
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                } receiveValue: { count in
+                    self.totalLinkCount = count.totalCount
+                    print("토탈 링크 카운트\(self.totalLinkCount)")
+                    self.openCount = count.openedCount
+                    print("오픈 링크 카운트\(self.openCount)")
+                }.store(in: &subscriber)
+
         }
     }
     

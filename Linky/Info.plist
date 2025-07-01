@@ -20,5 +20,18 @@
 		<string>WantedSans-Medium.ttf</string>
 		<string>WantedSans-Bold.ttf</string>
 	</array>
+    <key>NSAppTransportSecurity</key>
+        <dict>
+            <key>NSExceptionDomains</key>
+            <dict>
+                <key>54.178.94.175</key>
+                <dict>
+                    <key>NSIncludesSubdomains</key>
+                    <true/>
+                    <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                    <true/>
+                </dict>
+            </dict>
+        </dict>
 </dict>
 </plist>

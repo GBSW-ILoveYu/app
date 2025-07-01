@@ -14,9 +14,9 @@ protocol LinkServiceType {
     func getLink() -> AnyPublisher<[LinkResponse],LinkError>
     func detailgetLink(categoryTitle: String) -> AnyPublisher<[LinkResponse],LinkError>
     func sendLink(url: String) -> AnyPublisher<String,LinkError>
-    func getLinkCount() -> AnyPublisher<Void,LinkError>
     func recentlyOpened() -> AnyPublisher<[LinkResponse],LinkError>
     func detailGetLink(id: Int) -> AnyPublisher<LinkResponse,LinkError>
+    func openCount() -> AnyPublisher<LinkOpenCountResponse, LinkError>
 }
 
 class LinkService: LinkServiceType {
@@ -125,10 +125,6 @@ class LinkService: LinkServiceType {
         }.eraseToAnyPublisher()
     }
     
-    func getLinkCount() -> AnyPublisher<Void,LinkError> {
-        Empty().eraseToAnyPublisher()
-    }
-    
     func recentlyOpened() -> AnyPublisher<[LinkResponse],LinkError> {
         let baseURL = APIConstants.linkURL
         
@@ -187,6 +183,35 @@ class LinkService: LinkServiceType {
             }
         }.eraseToAnyPublisher()
     }
+    func openCount() -> AnyPublisher<LinkOpenCountResponse, LinkError>{
+        let baseURL = APIConstants.linkURL
+        
+        let token = KeychainWrapper.standard.string(forKey: "accessToken") ?? "없음"
+        print("Access Token: \(token)")
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)"
+        ]
+        
+        return Future<LinkOpenCountResponse,LinkError> { promise in
+            AF.request("\(baseURL)/count/opened",
+                       method: .get,
+                       encoding: URLEncoding.default,
+                       headers: headers)
+            .validate()
+            .responseDecodable(of: LinkOpenCountResponse.self){ response in
+                switch response.result{
+                case .success(let value):
+                    print(value)
+                    print("sakldnaslkdnlaksdnlkasdnlkasdnlkasdnlkasndlkasndklasnd")
+                    promise(.success(value))
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    promise(.failure(LinkError.networkError))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
 }
 
 class StubLinkService: LinkServiceType{
@@ -202,15 +227,15 @@ class StubLinkService: LinkServiceType{
         Empty().eraseToAnyPublisher()
     }
     
-    func getLinkCount() -> AnyPublisher<Void,LinkError> {
-        Empty().eraseToAnyPublisher()
-    }
-    
     func recentlyOpened() -> AnyPublisher<[LinkResponse],LinkError> {
         Empty().eraseToAnyPublisher()
     }
     
     func detailGetLink(id: Int) -> AnyPublisher<LinkResponse,LinkError>{
+        Empty().eraseToAnyPublisher()
+    }
+    
+    func openCount() -> AnyPublisher<LinkOpenCountResponse, LinkError>{
         Empty().eraseToAnyPublisher()
     }
 }

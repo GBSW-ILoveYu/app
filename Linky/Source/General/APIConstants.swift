@@ -8,7 +8,7 @@
 import Foundation
 
 struct APIConstants {
-    static let url = "http://localhost"
+    static let url = "http://54.178.94.175"
     static let signUpURL = "\(url)/auth/signUp"
     static let loginURL = "\(url)/auth/signin"
     static let linkURL = "\(url)/links"

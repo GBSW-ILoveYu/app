@@ -14,7 +14,7 @@ struct MainView: View {
         VStack{
             MainViewTitle(name: menuViewModel.user?.nickName ?? "없음")
             
-            ProgressBar(currentValue: 18, totalValue: 32)
+            ProgressBar(currentValue: Double(viewModel.openCount), totalValue: Double(viewModel.totalLinkCount))
             
             Spacer()
                 .frame(height: 30)
@@ -30,14 +30,15 @@ struct MainView: View {
         .onAppear{
             viewModel.send(action: .getLink)
             viewModel.send(action: .recentlyLink)
+            viewModel.send(action: .countLink)
         }
         .environmentObject(viewModel)
     }
 }
 
 fileprivate struct MainViewTitle: View {
+    @EnvironmentObject var viewModel : MainViewModel
     var name : String
-    var count : Int = 18
     var body: some View{
         HStack{
             Spacer()
@@ -51,7 +52,7 @@ fileprivate struct MainViewTitle: View {
                         .padding(.leading,-5)
                 }
                 HStack{
-                    Text("저장해둔 \(count)개의 링크")
+                    Text("저장해둔 \(viewModel.openCount)개의 링크")
                         .font(AppFonts.wantedSansBold(size: 20))
                         .foregroundStyle(.customBlue)
                     Text("를")
@@ -167,33 +168,35 @@ fileprivate struct VisitLinkRepository: View {
                 Spacer()
             }
             ScrollView(.horizontal, showsIndicators: false) {
-                ForEach(viewModel.recentlyLinks, id: \.id) { link in
-                    Button(action: {
-                        if let url = URL(string: link.url) {
-                            openURL(url)
-                        }
-                    }) {
-                        VStack(alignment: .leading, spacing: 6) {
-                            AsyncImage(url: URL(string: link.thumbnail)) { image in
-                                image.resizable()
-                                    .scaledToFit()
-                                    .frame(width: 180)
-                            } placeholder: {
-                                ProgressView()
+                HStack{
+                    ForEach(viewModel.recentlyLinks, id: \.id) { link in
+                        Button(action: {
+                            if let url = URL(string: link.url) {
+                                openURL(url)
                             }
-                            Text(link.title)
-                                .font(AppFonts.wantedSansMedium(size: 18))
-                                .foregroundStyle(.black)
-                                .lineLimit(1)
-                                .padding(.horizontal, 20)
-                            Text(link.description)
-                                .font(AppFonts.wantedSansMedium(size: 11))
-                                .foregroundColor(.gray)
-                                .lineLimit(1)
-                                .padding(.horizontal, 20)
+                        }) {
+                            VStack(alignment: .leading, spacing: 6) {
+                                AsyncImage(url: URL(string: link.thumbnail)) { image in
+                                    image.resizable()
+                                        .scaledToFit()
+                                        .frame(width: 180)
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                Text(link.title)
+                                    .font(AppFonts.wantedSansMedium(size: 18))
+                                    .foregroundStyle(.black)
+                                    .lineLimit(1)
+                                    .padding(.horizontal, 20)
+                                Text(link.description)
+                                    .font(AppFonts.wantedSansMedium(size: 11))
+                                    .foregroundColor(.gray)
+                                    .lineLimit(1)
+                                    .padding(.horizontal, 20)
+                            }
+                            .frame(width: 150, height: 120)
+                            .padding(.horizontal, 20)
                         }
-                        .frame(width: 150, height: 120)
-                        .padding(.horizontal, 20)
                     }
                 }
             }
